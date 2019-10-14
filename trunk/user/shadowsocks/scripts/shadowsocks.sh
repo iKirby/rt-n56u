@@ -56,7 +56,7 @@ get_wan_bp_list(){
 		bp=${bp}" -B /etc/storage/chinadns/chnroute.txt"
 	elif [ "$ss_mode" = "2" ]; then
 		loger "ss-rules" "gfwlist mode"
-		bp=${bp}" -b 0.0.0.0/1 128.0.0.0/1"
+		bp=${bp}" -b '0.0.0.0/1 128.0.0.0/1'"
 		if [ -f /etc/storage/ext.txt ]; then
 			bp=${bp}" -W /etc/storage/ext.txt"
 		fi
