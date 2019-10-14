@@ -52,8 +52,16 @@ get_wan_bp_list(){
 	wanip="$(nvram get wan_ipaddr)"
 	[ -n "$wanip" ] && [ "$wanip" != "0.0.0.0" ] && bp="-b $wanip" || bp=""
 	if [ "$ss_mode" = "1" ]; then
+		loger "ss-rules" "chnroute mode"
 		bp=${bp}" -B /etc/storage/chinadns/chnroute.txt"
+	elif [ "$ss_mode" = "2" ]; then
+		loger "ss-rules" "gfwlist mode"
+		bp=${bp}" -b 0.0.0.0/1 128.0.0.0/1"
+		if [ -f /etc/storage/ext.txt ]; then
+			bp=${bp}" -W /etc/storage/ext.txt"
+		fi
 	fi
+	loger "ss-rules" "$bp"
 	echo "$bp"
 }
 
@@ -73,6 +81,20 @@ func_start_ss_redir(){
 func_start_ss_rules(){
 	ss-rules -f
 	sh -c "ss-rules -s $ss_server -l $ss_local_port $(get_wan_bp_list) -d SS_SPEC_WAN_AC $(get_ipt_ext) $(get_arg_out) $(get_arg_udp)"
+	return $?
+}
+
+func_init_gfwlist(){
+	if [ "$ss_mode" = "2" ]; then
+		ipset -L gfwlist >/dev/null 2>&1
+		if [ $? -ne 0 ]; then
+			ipset create gfwlist hash:ip
+		fi
+		iptables -t nat -I SS_SPEC_WAN_AC 1 -m set --match-set gfwlist dst -j SS_SPEC_WAN_FW
+		restart_dhcpd
+		ipset flush gfwlist
+		loger $ss_bin "gfwlist initialized"
+	fi
 	return $?
 }
 
@@ -101,12 +123,14 @@ func_start(){
 	func_start_ss_redir && \
 	func_start_ss_rules && \
 	restart_firewall && \
-	loger $ss_bin "start done" || { ss-rules -f && loger $ss_bin "start fail!";}
+	func_init_gfwlist && \
+	loger $ss_bin "started" || { ss-rules -f && loger $ss_bin "start failed!";}
 }
 
 func_stop(){
 	killall -q $ss_bin
-	ss-rules -f && loger $ss_bin "stop"
+	ipset destroy gfwlist
+	ss-rules -f && loger $ss_bin "stopped"
 }
 
 case "$1" in
