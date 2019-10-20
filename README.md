@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.org/hanwckf/rt-n56u.svg?branch=master)](https://travis-ci.org/hanwckf/rt-n56u)
+![GitHub All Releases](https://img.shields.io/github/downloads/hanwckf/rt-n56u/total)
+[![release](https://img.shields.io/github/release/hanwckf/rt-n56u.svg)](https://github.com/hanwckf/rt-n56u/releases)
 
 # README #
 
@@ -78,6 +80,7 @@ Contributors of this project are not responsible for what happens next.
 >- XY-C1 (512M,USB)
 >- NEWIFI-MINI (128M,USB)
 >- HC5861B (128M)
+>- 360P2 (128M,USB)
 
 ***
 
@@ -87,7 +90,7 @@ Contributors of this project are not responsible for what happens next.
 ```shell
 sudo apt-get update
 sudo apt-get install unzip libtool curl cmake gperf gawk flex bison nano \
-git python-docutils gettext automake autopoint texinfo build-essential \
+git python-docutils gettext automake autopoint texinfo build-essential fakeroot \
 pkg-config zlib1g-dev libgmp3-dev libmpc-dev libmpfr-dev libncurses5-dev libltdl-dev
 ```
 * 克隆源码

@@ -1,35 +1,37 @@
 dist: xenial
 
-sudo: required
-
 language: c
 
 compiler:
     - gcc
 
-install:
-    - sudo apt-get update -qq
-    - sudo apt-get install -qq p7zip-full autoconf automake bison build-essential flex gawk gettext gperf libtool pkg-config zlib1g-dev libgmp3-dev libmpc-dev libmpfr-dev texinfo python-docutils libncurses5-dev autopoint curl libltdl-dev cmake
-    - sudo cp -f ./trunk/tools/travis/* /opt && sudo bash ./trunk/tools/travis_ci_build_trig.sh
+addons:
+    apt:
+      packages: [ fakeroot, p7zip-full, autoconf, automake, bison, build-essential,
+        flex, gawk, gettext, gperf, libtool, pkg-config, zlib1g-dev, libgmp3-dev,
+        libmpc-dev, libmpfr-dev, texinfo, python-docutils, libncurses5-dev, curl,
+        autopoint, libltdl-dev, cmake ]
 
 before_script:
-    - sudo mkdir -p /opt/rt-n56u/ && sudo mkdir -p /opt/images/
-    - sudo rm -rf toolchain-mipsel/
-    - sudo mv -f * .[^.]* /opt/rt-n56u
-    - cd /opt/rt-n56u && sudo git clone --depth=1 https://github.com/hanwckf/padavan-toolchain.git toolchain-mipsel && sudo chmod u+x ./toolchain-mipsel/toolchain-3.4.x/bin/*
+    - cp -f ./trunk/tools/travis/* /opt && ./trunk/tools/travis_ci_build_trig.sh
+    - mkdir -p /opt/rt-n56u/ && mkdir -p /opt/images/
+    - rm -rf toolchain-mipsel/
+    - mv -f * .[^.]* /opt/rt-n56u
+    - cd /opt/rt-n56u && git clone --depth=1 https://github.com/hanwckf/padavan-toolchain.git toolchain-mipsel
+    - chmod u+x ./toolchain-mipsel/toolchain-3.4.x/bin/*
     - ls -Alh /opt/rt-n56u && cd /opt/rt-n56u/trunk/
 
 script:
-    - for m in $targets; do sudo ./build_firmware_nohup $m && sudo cp -f images/*.trx /opt/images/$m.trx; sudo ./clear_tree_simple >/dev/null 2>&1; done
+    - for m in $targets; do fakeroot ./build_firmware_nohup $m && cp -f images/*.trx /opt/images/$m.trx; ./clear_tree_simple >/dev/null 2>&1; done
 
 after_script:
     - GIT_VERSION=`git rev-parse --short=7 HEAD 2>/dev/null` && [ -n "$GIT_VERSION" ] && image_name=images_mt7620_$GIT_VERSION || image_name=images_mt7620
-    - cd /opt/images && sudo bash -c "md5sum *.trx |tee md5sum.txt" && sudo 7z a -mx=9 ${image_name}.7z ./*
+    - cd /opt/images && md5sum *.trx |tee md5sum.txt && 7z a -mx=9 ${image_name}.7z ./*
     - echo $(curl -# --upload-file ./${image_name}.7z https://transfer.sh/${image_name}.7z)
 
 env:
     global:
-      - targets="PSG1218 MI-MINI MI-3 5K-W20 OYE-001"
+      - targets="PSG1218 NEWIFI-MINI MI-MINI MI-3 5K-W20 OYE-001"
       - secure: "2Y1oWw402b4hR2rNFJaPLS65bZgvL7R+U6twk7LKBY4P2NEmsPzt6Lui8jlp10oz0LFayLKccdcJNdUsLikZ26i2oiMQ9pf+PtNiV1+qpP5oGW5sqZOCj7DRIkNQJzfhdlq38+vkcQYOKvDGmgAeQ/cXC3BeLSPZgOOvyo4j6S7921btBxQ4lSwAdYIqw1vqDcNfjhXHltAq8nbWx8RQErh7fuplNNr/NJTlX54oKZyZqdHppTNigwP5zUUzTt6KnFAFb4YRMk9/H6HYbWv7RmyOH6sLbaaNjk5iNdfKN8MJWKJjW+9pQKuUkV2XyKZ68Nd3DtTa6MSqZZQT+Xe6ARxVv8RuN0pvZBbOLL1e1HOjwUKtukCp/Q4cKJelVLu9oTnb2/CcTMUwXpDWcXO6lHmahFTZtzUZ6HalagZnhrGcUjSKAHsyudAp3VPAUiWCYkNOHBbjbHkmqVSu2uI0KIHsEt5+/fw9D3wJC71B5fTlAPZ+ceDTdAGvX3jTzKs6tlTwDb4XHBUsDAjxNVdzmSMW+/JobTXjeBkhhlr3bU21COrQI5rEWOAwfxmSwxYHuGy4pcsz/wUSf1tHVacV6oop9TfXh/C9Bi6Cgsa2y+g3EZ+ZvBo+rb0fC3dkPQ+Mo2SKOsOGjFHcNWqHybZ6BtgrALrCL1BSmtALNxmDzDo="
 
 git:
