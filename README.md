@@ -30,12 +30,11 @@ Contributors of this project are not responsible for what happens next.
 
 ### 固件特点 ###
 - 使用[gorden5566](https://github.com/gorden5566/padavan)的汉化字典
-- [aria2](https://github.com/aria2/aria2)可选使用较新版本的预编译程序 ```CONFIG_FIRMWARE_INCLUDE_ARIA2_NEW_PREBUILD_BIN```
 - aria2前端更换为[AriaNg](https://github.com/mayswind/AriaNg)
 - [curl](https://github.com/curl/curl)可选编译可执行程序```CONFIG_FIRMWARE_INCLUDE_CURL```
-- 使用了[PROMETHEUS](http://pm.freize.net/index.html)提供的部分补丁，包括新版本的类库、软件包和WIFI驱动补丁
-- 使用了[Linaro1985/padavan-ng](https://github.com/Linaro1985/padavan-ng)的部分软件包
-- 集成以下软件
+- 使用了[PROMETHEUS](http://pm.freize.net/index.html)提供的部分补丁
+- 使用了[Linaro1985/padavan-ng](https://gitlab.com/padavan-ng/padavan-ng)的部分软件包
+- 集成以下插件
 >- [scutclient](https://github.com/hanwckf/scutclient) ```CONFIG_FIRMWARE_INCLUDE_SCUTCLIENT```
 >- [gdut-drcom](https://github.com/chenhaowen01/gdut-drcom) ```CONFIG_FIRMWARE_INCLUDE_GDUT_DRCOM```
 >- [dogcom](https://github.com/hanwckf/dogcom) ```CONFIG_FIRMWARE_INCLUDE_DOGCOM```
@@ -60,31 +59,34 @@ Contributors of this project are not responsible for what happens next.
 >- [mtr](https://github.com/traviscross/mtr) ```CONFIG_FIRMWARE_INCLUDE_MTR```
 >- [socat](http://www.dest-unreach.org/socat) ```CONFIG_FIRMWARE_INCLUDE_SOCAT```
 >- [srelay](https://socks-relay.sourceforge.io) ```CONFIG_FIRMWARE_INCLUDE_SRELAY```
->- [mentohust](https://github.com/hanwckf/mentohust) ```CONFIG_FIRMWARE_INCLUDE_MENTOHUST```
+>- [mentohust](https://github.com/hanwckf/mentohust-1) ```CONFIG_FIRMWARE_INCLUDE_MENTOHUST```
 >- [frpc](https://github.com/fatedier/frp) ```CONFIG_FIRMWARE_INCLUDE_FRPC```
 >- [frps](https://github.com/fatedier/frp) ```CONFIG_FIRMWARE_INCLUDE_FRPS```
+>- [tunsafe](https://github.com/TunSafe/TunSafe) ```CONFIG_FIRMWARE_INCLUDE_TUNSAFE```
 
 - 已适配除官方适配外的以下机型
->- WR1200JS (USB)
->- NEWIFI3 (USB)
+>- PSG1208
 >- PSG1218
->- K2P
->- K2P-USB (USB)
->- MZ-R13
->- MZ-R13P
->- HC5661A
+>- 5K-W20 (USB)
 >- OYE-001 (USB)
+>- NEWIFI-MINI (USB)
 >- MI-MINI (USB)
 >- MI-3 (USB)
->- 5K-W20 (USB)
->- JCG-AC860M (USB)
->- JCG-836PRO (USB)
->- DIR-882 (USB)
->- RT-AC1200GU (USB)
->- XY-C1 (USB)
->- NEWIFI-MINI (USB)
+>- HC5661A
 >- HC5861B
 >- 360P2 (USB)
+>- MZ-R13
+>- MZ-R13P
+>- RT-AC1200GU (USB)
+>- XY-C1 (USB)
+>- WR1200JS (USB)
+>- NEWIFI3 (USB)
+>- K2P
+>- K2P-USB (USB)
+>- JCG-836PRO (USB)
+>- JCG-AC860M (USB)
+>- DIR-882 (USB)
+>- DIR-878
 >- MR2600 (USB)
 
 ***
@@ -93,9 +95,9 @@ Contributors of this project are not responsible for what happens next.
 
 * 安装依赖包
 ```shell
-sudo apt-get update
-sudo apt-get install unzip libtool curl cmake gperf gawk flex bison nano \
-git python-docutils gettext automake autopoint texinfo build-essential fakeroot \
+sudo apt update
+sudo apt install unzip libtool-bin curl cmake gperf gawk flex bison nano xxd \
+cpio git python-docutils gettext automake autopoint texinfo build-essential help2man \
 pkg-config zlib1g-dev libgmp3-dev libmpc-dev libmpfr-dev libncurses5-dev libltdl-dev
 ```
 * 克隆源码
@@ -103,13 +105,20 @@ pkg-config zlib1g-dev libgmp3-dev libmpc-dev libmpfr-dev libncurses5-dev libltdl
 git clone --depth=1 https://gitee.com/hanwckf/rt-n56u.git /opt/rt-n56u
 #git clone --depth=1 https://github.com/hanwckf/rt-n56u.git /opt/rt-n56u
 ```
-* 编译工具链
+* 准备工具链
 ```shell
 cd /opt/rt-n56u/toolchain-mipsel
-./clean_sources
-./build_toolchain_3.4.x
+
+# 可以从源码编译工具链，这需要一些时间：
+./clean_toolchain
+./build_toolchain
+
+# 或者下载预编译的工具链：
+mkdir -p toolchain-3.4.x
+wget https://github.com/hanwckf/padavan-toolchain/releases/download/v1.0/mipsel-linux-uclibc.tar.xz
+tar -xvf mipsel-linux-uclibc.tar.xz -C toolchain-3.4.x
 ```
-* (可选)修改机型配置文件
+* (可选) 修改机型配置文件
 ```shell
 nano /opt/rt-n56u/trunk/configs/templates/PSG1218.config
 ```
@@ -118,8 +127,8 @@ nano /opt/rt-n56u/trunk/configs/templates/PSG1218.config
 cd /opt/rt-n56u/trunk
 sudo ./clear_tree
 sudo ./build_firmware_modify PSG1218
-#脚本第一个参数为路由型号，在trunk/configs/templates/中
-#编译好的固件在trunk/images里
+# 脚本第一个参数为路由型号，在trunk/configs/templates/中
+# 编译好的固件在trunk/images里
 ```
 
 ***

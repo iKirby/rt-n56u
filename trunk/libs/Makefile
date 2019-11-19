@@ -100,9 +100,7 @@ LIBS_INCLUDE_CURL=y
 endif
 ifeq ($(CONFIG_FIRMWARE_INCLUDE_ARIA),y)
 LIBS_INCLUDE_LIBSSL=y
-ifneq ($(CONFIG_FIRMWARE_INCLUDE_ARIA2_NEW_PREBUILD_BIN),y)
 LIBS_INCLUDE_LIBXML2=y
-endif
 endif
 
 ifeq ($(CONFIG_FIRMWARE_INCLUDE_MINIDLNA),y)
@@ -229,6 +227,10 @@ dir_$(LIBS_INCLUDE_LIBXML2)		+= libxml2
 
 dir_$(LIBS_INCLUDE_C_ARES)		+= c-ares
 dir_$(LIBS_INCLUDE_READLINE)		+= readline
+
+ifneq (,$(filter y,$(CONFIG_FIRMWARE_INCLUDE_NFSD) $(CONFIG_FIRMWARE_INCLUDE_NFSC)))
+dir_y						+= libtirpc
+endif
 
 all:
 	for i in $(dir_y) ; do \

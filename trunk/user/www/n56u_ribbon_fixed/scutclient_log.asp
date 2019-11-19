@@ -92,7 +92,10 @@ function initial(){
                                         </tr>
                                         <tr>
                                             <td width="15%" style="text-align: left; padding-bottom: 0px;">
-                                                <input type="button" onClick="location.href=location.href" value="<#CTL_refresh#>" class="btn btn-primary" style="width: 219px">
+                                                <input type="button" onClick="location.href=location.href" value="<#CTL_refresh#>" class="btn btn-primary" style="width: 170px">
+                                            </td>
+                                            <td width="15%" style="text-align: left; padding-bottom: 0px;">
+                                                <input type="button" onClick="location.href='scutclient.log'" value="<#CTL_onlysave#>" class="btn btn-success" style="width: 170px">
                                             </td>
                                         </tr>
                                     </table>

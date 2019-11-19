@@ -397,6 +397,9 @@ if (found_app_dnsforwarder()){
 if (found_app_shadowsocks()){
 	tabtitle[12] = new Array("", "<#menu5_1_1#>","<#menu5_16_20#>");
 }
+if (found_app_mentohust()){
+	tabtitle[13] = new Array("", "<#menu5_1_1#>","<#menu5_13_log#>");
+}
 
 //Level 3 Tab title
 
@@ -422,6 +425,10 @@ if (found_app_shadowsocks()){
 	shadowsocks_array = new Array("","Shadowsocks.asp","Shadowsocks_log.asp");
 	tablink[12] = (shadowsocks_array);
 }
+if (found_app_mentohust()){
+	mentohust_array = new Array("","mentohust.asp","mentohust_log.asp");
+	tablink[13] = (mentohust_array);
+}
 
 //Level 2 Menu
 menuL2_title = new Array(15)
@@ -438,6 +445,10 @@ if (found_app_shadowsocks()){
 	menuL2_title.push("<#menu5_16#>");
 } else menuL2_title.push("");
 
+if (found_app_mentohust()){
+	menuL2_title.push("mentohust");
+} else menuL2_title.push("");
+
 
 menuL2_link  = new Array("", tablink[0][1], tablink[1][1], tablink[2][1], tablink[3][1], tablink[4][1], tablink[5][1], tablink[6][1], tablink[7][1], tablink[8][1], tablink[9][1]);
 if (found_app_scutclient()){
@@ -450,6 +461,10 @@ if (found_app_dnsforwarder()){
 
 if (found_app_shadowsocks()){
 	menuL2_link.push(shadowsocks_array[1]);
+} else menuL2_link.push("");
+
+if (found_app_mentohust()){
+	menuL2_link.push(mentohust_array[1]);
 } else menuL2_link.push("");
 
 //Level 1 Menu in Gateway, Router mode
@@ -501,6 +516,13 @@ function show_menu(L1, L2, L3){
 			tablink[3].splice(2,1);
 			tabtitle[3].splice(2,1);
 		}
+	}
+
+	if (!support_vpn()){
+		menuL1_link[3] = "";
+		menuL1_link[4] = "";
+		menuL1_title[3] = "";
+		menuL1_title[4] = "";
 	}
 
 	for (i=0;i<num_ephy;i++){

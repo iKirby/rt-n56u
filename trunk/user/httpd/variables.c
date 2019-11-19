@@ -787,6 +787,34 @@
 			{"scutclient_hash","",NULL,EVM_RESTART_SCUT },
 			{"scutclient_hostname","",NULL,EVM_RESTART_SCUT },
 			{"scutclient_watchcat","",NULL,FALSE},
+			{"scutclient_wdg_force","",NULL,FALSE},
+			{"scutclient_skip_udp_hb","",NULL,EVM_RESTART_SCUT},
+			{0,0,0,0}
+	};
+#endif
+
+#if defined (APP_MENTOHUST)
+	struct variable variables_mentohustConf[] = {
+			{"mentohust_enable", "", NULL, EVM_RESTART_MENTOHUST},
+			{"mentohust_username", "", NULL, EVM_RESTART_MENTOHUST},
+			{"mentohust_password", "", NULL, EVM_RESTART_MENTOHUST},
+			{"mentohust_nic", "", NULL, EVM_RESTART_MENTOHUST},
+			{"mentohust_ip", "", NULL, EVM_RESTART_MENTOHUST},
+			{"mentohust_mask", "", NULL, EVM_RESTART_MENTOHUST},
+			{"mentohust_gw", "", NULL, EVM_RESTART_MENTOHUST},
+			{"mentohust_dns", "", NULL, EVM_RESTART_MENTOHUST},
+			{"mentohust_pinghost", "", NULL, EVM_RESTART_MENTOHUST},
+			{"mentohust_timeout", "", NULL, EVM_RESTART_MENTOHUST},
+			{"mentohust_interval", "", NULL, EVM_RESTART_MENTOHUST},
+			{"mentohust_restart_wait", "", NULL, EVM_RESTART_MENTOHUST},
+			{"mentohust_maxfail", "", NULL, EVM_RESTART_MENTOHUST},
+			{"mentohust_startmode", "", NULL, EVM_RESTART_MENTOHUST},
+			{"mentohust_dhcp", "", NULL, EVM_RESTART_MENTOHUST},
+			{"mentohust_daemon", "", NULL, EVM_RESTART_MENTOHUST},
+			{"mentohust_ver", "", NULL, EVM_RESTART_MENTOHUST},
+			{"mentohust_datafile", "", NULL, EVM_RESTART_MENTOHUST},
+			{"mentohust_dhcpscript", "", NULL, EVM_RESTART_MENTOHUST},
+			{"mentohust_service", "", NULL, EVM_RESTART_MENTOHUST},
 			{0,0,0,0}
 	};
 #endif
@@ -944,6 +972,9 @@
 #if defined(APP_SCUT)
 		{"ScutclientConf",		variables_ScutclientConf},
 #endif
+#if defined(APP_MENTOHUST)
+		{"mentohustConf",		variables_mentohustConf},
+#endif
 #if defined(APP_SHADOWSOCKS)
 		{"ShadowsocksConf",		variables_ShadowsocksConf},
 #endif
@@ -1013,6 +1044,9 @@
 #endif
 #if defined(APP_SCUT)
 		{EVM_RESTART_SCUT,		EVT_RESTART_SCUT,		RCN_RESTART_SCUT,	0},
+#endif
+#if defined(APP_MENTOHUST)
+		{EVM_RESTART_MENTOHUST,		EVT_RESTART_MENTOHUST,		RCN_RESTART_MENTOHUST,	0},
 #endif
 #if defined(APP_TTYD)
 		{EVM_RESTART_TTYD,		EVT_RESTART_TTYD,		RCN_RESTART_TTYD,	0},

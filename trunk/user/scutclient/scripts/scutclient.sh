@@ -13,6 +13,10 @@ get_arg_debug(){
 	[ "$(nvram get scutclient_debug)" = "1" ] && echo "-D"
 }
 
+get_arg_skip_udp_hb(){
+	[ "$(nvram get scutclient_skip_udp_hb)" = "1" ] && echo "-b"
+}
+
 func_start(){
 #	[ "$(mtk_esw 11)" = "WAN ports link state: 0" ] && func_log "WAN has no link!" && exit 1
 	auth_hook=$(nvram get scutclient_auth_exec)
@@ -26,9 +30,9 @@ func_start(){
 	-s "$(nvram get scutclient_server_auth_ip)" \
 	-c "$(nvram get scutclient_version)" \
 	-h "$(nvram get scutclient_hash)" \
+	"$(get_arg_debug)" "$(get_arg_skip_udp_hb)" \
 	-E "${auth_hook:-"echo 0 > /tmp/scutclient_status"}" \
-	-Q "${fail_hook:-"echo 1 > /tmp/scutclient_status"}" \
-	"$(get_arg_debug)"
+	-Q "${fail_hook:-"echo 1 > /tmp/scutclient_status"}"
 
 	if [ $? -eq 0 ] ; then
 		echo "[  OK  ]"

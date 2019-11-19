@@ -12,7 +12,10 @@ go_exit(){
 
 auth(){
 	if [ $(date '+%H') -lt 6 ]; then
-		/usr/bin/scutclient.sh restart nolog > /dev/null 2>&1
+		# if NTP failed or force re-auth (default), then restart scutclient
+		if [ $(date '+%Y') -lt 2019 ] || [ "$(nvram get scutclient_wdg_force)" != "0" ]; then
+			/usr/bin/scutclient.sh restart nolog > /dev/null 2>&1
+		fi
 	else
 		logger -t "scutclient_watchcat" "Connection failed ($1), restart scutclient!"
 		/usr/bin/scutclient.sh restart > /dev/null 2>&1
@@ -24,8 +27,10 @@ if [ "$(nvram get scutclient_watchcat)" = "1" ] && \
   [ "$(nvram get scutclient_enable)" = "1" ] && \
   [ "$(mtk_esw 11)" != "WAN ports link state: 0" ]; then
 
-	if [ -f $auth_flag ] && [ "$(cat $auth_flag)" = "1" ]; then
-		auth "flag"
+	if [ "$(nvram get scutclient_wdg_flag)" = "1" ]; then
+		if [ -f $auth_flag ] && [ "$(cat $auth_flag)" = "1" ]; then
+			auth "flag"
+		fi
 	fi
 
 	for n in $net; do

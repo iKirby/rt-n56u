@@ -142,8 +142,10 @@ dir_$(CONFIG_FIRMWARE_INCLUDE_TCPDUMP)		+= tcpdump
 dir_$(CONFIG_FIRMWARE_INCLUDE_MTR)		+= mtr
 dir_$(CONFIG_FIRMWARE_INCLUDE_SOCAT)	+= socat
 dir_$(CONFIG_FIRMWARE_INCLUDE_SRELAY)	+= srelay
+dir_$(CONFIG_FIRMWARE_INCLUDE_TUNSAFE) += tunsafe
 ifeq ($(CONFIG_FIRMWARE_INCLUDE_SMBD36),y)
 dir_$(SAMBA_ENABLED)				+= samba36
+dir_y							+= wsdd2
 else
 dir_$(SAMBA_ENABLED)				+= samba3
 endif
@@ -178,7 +180,10 @@ dir_$(CONFIG_FIRMWARE_INCLUDE_DUMP1090)	+= dump1090
 endif
 
 ifeq ($(STORAGE_ENABLED),y)
-dir_y						+= nfsd
+dir_$(CONFIG_FIRMWARE_INCLUDE_NFSD)		+= nfs-utils
+ifneq (,$(filter y,$(CONFIG_FIRMWARE_INCLUDE_NFSD) $(CONFIG_FIRMWARE_INCLUDE_NFSC)))
+dir_y						+= rpcbind
+endif
 dir_y						+= optware
 dir_y						+= util-linux
 dir_$(FS_EXT_ENABLED)				+= e2fsprogs
