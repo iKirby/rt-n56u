@@ -3905,9 +3905,9 @@ BOOLEAN WpaMessageSanity(
 		RTMPSendWirelessEvent(pAd, IW_REPLAY_COUNTER_DIFF_EVENT_FLAG, pEntry->Addr, pEntry->wdev->wdev_idx, 0);
 
 		if (MsgType < EAPOL_GROUP_MSG_1)
-			MTWF_LOG(DBG_CAT_SEC, DBG_SUBCAT_ALL, DBG_LVL_ERROR, ("Replay Counter Different in pairwise msg %d of 4-way handshake!\n", MsgType));
+			MTWF_LOG(DBG_CAT_SEC, DBG_SUBCAT_ALL, DBG_LVL_TRACE, ("Replay Counter Different in pairwise msg %d of 4-way handshake!\n", MsgType));
 		else
-			MTWF_LOG(DBG_CAT_SEC, DBG_SUBCAT_ALL, DBG_LVL_ERROR, ("Replay Counter Different in group msg %d of 2-way handshake!\n", (MsgType - EAPOL_PAIR_MSG_4)));
+			MTWF_LOG(DBG_CAT_SEC, DBG_SUBCAT_ALL, DBG_LVL_TRACE, ("Replay Counter Different in group msg %d of 2-way handshake!\n", (MsgType - EAPOL_PAIR_MSG_4)));
 
 		hex_dump("Receive replay counter ", pMsg->KeyDesc.ReplayCounter, LEN_KEY_DESC_REPLAY);
 		hex_dump("Current replay counter ", pHandshake4Way->ReplayCounter, LEN_KEY_DESC_REPLAY);
@@ -5957,7 +5957,7 @@ VOID WPAHandshakeMsgRetryExec(
 			} else if (pHandshake->MsgType == EAPOL_GROUP_MSG_1) {
 				if (pHandshake->MsgRetryCounter > GROUP_MSG1_RETRY_LIMIT) {
 					pHandshake->GTKState = REKEY_FAILURE;
-					MTWF_LOG(DBG_CAT_SEC, DBG_SUBCAT_ALL, DBG_LVL_ERROR, ("%s::Group rekey timeout from %02X:%02X:%02X:%02X:%02X:%02X\n", __func__, PRINT_MAC(pHandshake->SAddr)));
+					MTWF_LOG(DBG_CAT_SEC, DBG_SUBCAT_ALL, DBG_LVL_TRACE, ("%s::Group rekey timeout from %02X:%02X:%02X:%02X:%02X:%02X\n", __func__, PRINT_MAC(pHandshake->SAddr)));
 				} else {
 					WPABuildGroupMsg1(pAd, &pEntry->SecConfig, pEntry);
 					MTWF_LOG(DBG_CAT_SEC, DBG_SUBCAT_ALL, DBG_LVL_TRACE, ("%s::ReTry MSG1 of 2-way Handshake, Counter = %d\n", __func__, pHandshake->MsgRetryCounter));

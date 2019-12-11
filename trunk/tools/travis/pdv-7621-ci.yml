@@ -7,13 +7,12 @@ compiler:
 
 env:
     global:
-      - targets="K2P K2P_nano K2P_nano-5.0 JCG-836PRO-5.0 JCG-AC860M-5.0 DIR-878-5.0 DIR-882 DIR-882-5.0 WR1200JS NEWIFI3"
+      - targets="K2P K2P_nano K2P_nano-5.0 JCG-836PRO-5.0 JCG-AC860M-5.0 DIR-878-5.0 DIR-882-5.0 WR1200JS NEWIFI3"
       - toolchain_url="https://github.com/hanwckf/padavan-toolchain/releases/download/v1.0/mipsel-linux-uclibc.tar.xz"
 
 addons:
     apt:
-      packages: [ fakeroot, p7zip-full, gperf, libtool-bin, curl, 
-        texinfo, python-docutils, autopoint, cmake ]
+      packages: [ fakeroot, p7zip-full, libtool-bin, gperf, texinfo, python-docutils, autopoint ]
 
 before_script:
     - cd /opt && git clone --depth=1 https://github.com/hanwckf/rt-n56u.git
