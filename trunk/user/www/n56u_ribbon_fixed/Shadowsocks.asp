@@ -309,7 +309,7 @@ function fill_ss_tunnel_status(status_code){
                                                 <select name="ss_mode" class="input" style="width: 145px;">   
                                                     <option value="0" ><#menu5_16_11#></option>
                                                     <option value="1" ><#ChnRoute#></option>
-													<option value="2" >gfwlist</option>
+                                                    <option value="2" >gfwlist</option>
                                                 </select>
                                             </td>
                                         </tr>
