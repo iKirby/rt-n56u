@@ -7,8 +7,8 @@ compiler:
 
 env:
     global:
-      - targets="HC5861B MI-NANO MZ-R13 360P2 HC5661A"
-      - toolchain_url="https://github.com/hanwckf/padavan-toolchain/releases/download/v1.0/mipsel-linux-uclibc.tar.xz"
+      - targets="HC5861B MI-NANO MZ-R13 360P2 HC5761A HC5661A"
+      - toolchain_url="https://github.com/hanwckf/padavan-toolchain/releases/download/v1.1/mipsel-linux-uclibc.tar.xz"
 
 addons:
     apt:
@@ -26,6 +26,7 @@ script:
 after_script:
     - GIT_VERSION=`git rev-parse --short=7 HEAD 2>/dev/null` && [ -n "$GIT_VERSION" ] && image_name=images_mt7628_$GIT_VERSION || image_name=images_mt7628
     - cd /opt/images; du -k *; md5sum *.trx |tee md5sum.txt; 7z a -mx=9 ${image_name}.7z ./*
+    - "curl -m 180 -F file=@${image_name}.7z https://file.io/?expires=3d ; echo"
     - "curl -m 180 -H 'Max-Days: 3' --upload-file ./${image_name}.7z https://transfer.sh/${image_name}.7z ; echo"
 
 git:

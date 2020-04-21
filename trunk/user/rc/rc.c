@@ -799,6 +799,12 @@ LED_CONTROL(int gpio_led, int flag)
 #endif
 #endif
 	{
+#if defined (BOARD_HC5761A)
+		if (gpio_led == BOARD_GPIO_LED_SW5G) {
+			cpu_gpio_mode_set_bit(40, 1);
+			cpu_gpio_mode_set_bit(41, 0);
+		}
+#endif
 		if (is_soft_blink)
 			cpu_gpio_led_enabled(gpio_led, (flag == LED_OFF) ? 0 : 1);
 		
@@ -893,6 +899,13 @@ init_router(void)
 
 	if (log_remote)
 		start_logger(1);
+
+#if defined (BOARD_HC5761A)
+	cpu_gpio_mode_set_bit(38, 1);
+	cpu_gpio_mode_set_bit(39, 0);
+	cpu_gpio_set_pin_direction(BOARD_GPIO_PWR_USB, 1);
+	cpu_gpio_set_pin(BOARD_GPIO_PWR_USB, BOARD_GPIO_PWR_USB_ON);
+#endif
 
 	start_dns_dhcpd(is_ap_mode);
 #if defined (APP_SMBD) || defined (APP_NMBD)

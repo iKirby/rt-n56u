@@ -247,6 +247,7 @@ function show_banner(L3){
 		bc += '<table class="" style="margin-top: 0px; margin-bottom: 5px" width="100%" border="0">\n';
 		bc += '  <tr>\n';
 		bc += '    <td width="60%" style="text-align: left"><b><#General_x_SystemTime_itemname#>:</b><span class="alert alert-info" style="margin-left: 10px; padding-top: 4px; padding-bottom: 4px;" id="system_time_log_area"></span></td>\n';
+		bc += '    <td style="text-align: lift"><input type="hidden" id="scrATop" value=""></td>\n';
 		bc += '    <td style="text-align: right"><button type="button" id="clearlog_btn" class="btn btn-info" style="min-width: 170px;" onclick="clearlog();"><#CTL_clear#></button></td>\n';
 		bc += '  </tr>\n';
 		bc += '</table>\n';
@@ -468,8 +469,8 @@ if (found_app_mentohust()){
 } else menuL2_link.push("");
 
 //Level 1 Menu in Gateway, Router mode
-menuL1_title = new Array("", "<#menu1#>", "<#menu3#>", "<#menu2#>", "<#menu6#>", "<#menu4#>", "<#menu5_8#>", "<#menu5#>");
-menuL1_link = new Array("", "index.asp", "aidisk.asp", "vpnsrv.asp", "vpncli.asp", "Main_TrafficMonitor_realtime.asp", "Advanced_System_Info.asp", "as.asp");
+menuL1_title = new Array("", "<#menu1#>", "", "", "", "<#menu4#>", "<#menu5_8#>", "<#menu5#>");
+menuL1_link = new Array("", "index.asp", "", "", "", "Main_TrafficMonitor_realtime.asp", "Advanced_System_Info.asp", "as.asp");
 menuL1_icon = new Array("", "icon-home", "icon-hdd", "icon-retweet", "icon-globe", "icon-tasks", "icon-random", "icon-wrench");
 
 function show_menu(L1, L2, L3){
@@ -496,12 +497,6 @@ function show_menu(L1, L2, L3){
 		menuL2_title[4] = "";
 		menuL2_link[5] = "";  //remove Firewall
 		menuL2_title[5] = "";
-		menuL1_link[2] = "";  //remove AiDisk;
-		menuL1_title[2] = "";
-		menuL1_link[3] = "";  //remove VPN svr
-		menuL1_title[3] = "";
-		menuL1_link[4] = "";  //remove VPN cli
-		menuL1_title[4] = "";
 		
 		if (lan_proto == '1'){
 			tabtitle[2].splice(2,1);
@@ -516,13 +511,6 @@ function show_menu(L1, L2, L3){
 			tablink[3].splice(2,1);
 			tabtitle[3].splice(2,1);
 		}
-	}
-
-	if (!support_vpn()){
-		menuL1_link[3] = "";
-		menuL1_link[4] = "";
-		menuL1_title[3] = "";
-		menuL1_title[4] = "";
 	}
 
 	for (i=0;i<num_ephy;i++){
@@ -555,8 +543,6 @@ function show_menu(L1, L2, L3){
 	if(!support_storage()){
 		tabtitle[5].splice(1,5);
 		tablink[5].splice(1,5);
-		menuL1_link[2] = "";  //remove AiDisk
-		menuL1_title[2] = "";
 		menuL2_link[6] = "";  //remove USB
 		menuL2_title[6] = "";
 	}else{
@@ -567,8 +553,6 @@ function show_menu(L1, L2, L3){
 		if(!found_app_smbd() && !found_app_ftpd()){
 			tabtitle[5].splice(2,2);
 			tablink[5].splice(2,2);
-			menuL1_link[2] = "";
-			menuL1_title[2] = "";
 		}
 		else if(!found_app_smbd()){
 			tabtitle[5].splice(2,1);
@@ -577,8 +561,6 @@ function show_menu(L1, L2, L3){
 		else if(!found_app_ftpd()){
 			tabtitle[5].splice(3,1);
 			tablink[5].splice(3,1);
-			menuL1_link[2] = "";
-			menuL1_title[2] = "";
 		}
 	}
 
@@ -1240,10 +1222,18 @@ function setLogData(){
         if($j("#log_area").val() == ''){
             $j("#log_area").text(data);
             $j("#log_area").prop('scrollTop', $j("#log_area").prop('scrollHeight'));
+            $j("#scrATop").val($j("#log_area").prop('scrollTop'));
         }else{
+            var scrMaxTop = $j("#log_area").prop('scrollHeight')
             var scrTop = $j("#log_area").prop('scrollTop');
             $j("#log_area").text(data);
-            $j("#log_area").prop('scrollTop', scrTop);
+            var scrITop = scrMaxTop - scrTop;
+            if($j("#scrATop").val() == scrTop || scrITop < 629){
+                $j("#log_area").prop('scrollTop', scrMaxTop);
+                $j("#scrATop").val($j("#log_area").prop('scrollTop'));
+            }else{
+                $j("#log_area").prop('scrollTop', scrTop);
+            }
         }
     });
 }

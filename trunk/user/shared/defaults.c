@@ -225,6 +225,8 @@ struct nvram_pair router_defaults[] = {
 	{ "wl_HT_BAWinSize", "64" },
 	{ "wl_HT_AutoBA", "1" },
 	{ "wl_VgaClamp", "0" },
+	{ "wl_KickStaRssiLow", "0" },
+	{ "wl_AssocReqRssiThres", "0" },
 
 	// guest AP 5Ghz
 	{ "wl_guest_enable", "0" },
@@ -321,6 +323,8 @@ struct nvram_pair router_defaults[] = {
 	{ "rt_HT_BAWinSize", "64" },
 	{ "rt_HT_AutoBA", "1" },
 	{ "rt_VgaClamp", "0" },
+	{ "rt_KickStaRssiLow", "0" },
+	{ "rt_AssocReqRssiThres", "0" },
 
 	// guest AP 2.4Ghz
 	{ "rt_guest_enable", "0" },
@@ -557,7 +561,7 @@ struct nvram_pair router_defaults[] = {
 	{ "ss_watchcat", "1" },
 	{ "ss_update_chnroute", "0" },
 	{ "ss_update_gfwlist", "0" },
-	
+
 	/* DHCP server parameters */
 	{ "dhcp_start", DEF_LAN_DHCP_BEG },	/* First assignable DHCP address */
 	{ "dhcp_end", DEF_LAN_DHCP_END },	/* Last assignable DHCP address */
@@ -819,6 +823,17 @@ struct nvram_pair router_defaults[] = {
 	{ "vpnc_ov_ciph", "3" },
 	{ "vpnc_ov_clzo", "2" },
 	{ "vpnc_ov_atls", "0" },
+
+	/* xTun */
+	{ "xTun_iface", "tun0" },
+	{ "xTun_cidr", "10.0.1.2/24" },
+	{ "xTun_server", "server.me" },
+	{ "xTun_port", "1082" },
+	{ "xTun_tcp", "0" },
+	{ "xTun_key", "password" },
+
+	{ "xTun_dns", "1.1.1.1" },
+	{ "xTun_black_list", "/etc/storage/xTun_black_list" },
 
 	{ 0, 0 }
 };
