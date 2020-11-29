@@ -1,6 +1,7 @@
 name: build K2P-5.0
 
 on: 
+  workflow_dispatch:
   release:
     types: [published]
   watch:
