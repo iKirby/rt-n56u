@@ -1,4 +1,4 @@
-name: build K2P-5.0
+name: build K2P-custom
 
 on: 
   workflow_dispatch:
@@ -20,7 +20,7 @@ jobs:
 #           - build_variant: "mt7628"
 #             targets: "HC5861B MI-NANO MZ-R13 MZ-R13P 360P2 HC5761A HC5661A"
           - build_variant: "mt7621"
-            targets: "K2P-5.0"
+            targets: "K2P-custom"
 #           - build_variant: "mt7621-usb"
 #             targets: "JCG-836PRO-5.0 JCG-AC860M-5.0 JCG-Y2-5.0 DIR-882-5.0 A3004NS MSG1500 WR1200JS MI-R3G NEWIFI3 B70"
     steps:
