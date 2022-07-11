@@ -174,7 +174,7 @@ struct nvram_pair router_defaults[] = {
 	{ "wl_closed", "0" },			/* Closed (hidden) network */
 	{ "wl_macmode", "disabled" },		/* "allow" only, "deny" only, or "disabled"(allow all) */
 	{ "wl_maclist", "" },			/* xx:xx:xx:xx:xx:xx ... */
-	{ "wl_wme", "0" },			/* WME mode (off|on) */
+	{ "wl_wme", "1" },			/* WME mode (off|on) */
 	{ "wl_wme_no_ack", "off" },		/* WME No-Acknowledgment mode */
 	{ "wl_auth_mode", "psk" },		/* Network authentication mode: WPAx Personal */
 	{ "wl_key", "1" },			/* Current WEP key */
@@ -286,7 +286,7 @@ struct nvram_pair router_defaults[] = {
 	{ "rt_HT_BW", "1" },
 	{ "rt_HT_EXTCHA", "1" },
 	{ "rt_HT_OpMode", "0" },
-	{ "rt_wme", "0" },
+	{ "rt_wme", "1" },
 	{ "rt_wme_no_ack", "off" },
 	{ "rt_IgmpSnEnable", "1" },
 	{ "rt_TxPower", "100" },
@@ -614,6 +614,8 @@ struct nvram_pair router_defaults[] = {
 	{ "ddns_hostname2_x", "" },
 	{ "ddns_hostname3_x", "" },
 	{ "ddns_wildcard_x", "0" },
+	{ "ddns2_wildcard_x", "0" },
+	{ "ddns_ipv6", "0" },
 	{ "ddns_cst_svr", "" },
 	{ "ddns_cst_url", "" },
 	{ "ddns_period", "24" },
@@ -621,12 +623,13 @@ struct nvram_pair router_defaults[] = {
 	{ "ddns_verbose", "1" },
 	{ "ddns_source", "0" },
 	{ "ddns_checkip", "0" },
-	{ "ddns_ssl", "1" },
+	{ "ddns2_checkip", "0" },
+	{ "ddns_ssl", "0" },
 	{ "ddns2_server", "" },
 	{ "ddns2_hname", "" },
 	{ "ddns2_user", "" },
 	{ "ddns2_pass", "" },
-	{ "ddns2_ssl", "1" },
+	{ "ddns2_ssl", "0" },
 	{ "asusddns_tos_agreement", "0" },
 
 	{ "preferred_lang", "CN" },
@@ -836,9 +839,11 @@ struct nvram_pair router_defaults[] = {
 	{ "vpns_ov_prot", "0" },
 	{ "vpns_ov_port", "1194" },
 	{ "vpns_ov_mdig", "1" },
-	{ "vpns_ov_ciph", "3" },
-	{ "vpns_ov_clzo", "2" },
+	{ "vpns_ov_ciph", "15" },
+	{ "vpns_ov_ncp_clist", DEF_OVPNS_CIPH_LIST },
+	{ "vpns_ov_compress", "2" },
 	{ "vpns_ov_atls", "0" },
+	{ "vpns_ov_tcv2", "0" },
 	{ "vpns_ov_rdgw", "0" },
 	{ "vpnc_ov_mode", "1" },
 	{ "vpnc_ov_cnat", "0" },
@@ -846,8 +851,9 @@ struct nvram_pair router_defaults[] = {
 	{ "vpnc_ov_port", "1194" },
 	{ "vpnc_ov_auth", "0" },
 	{ "vpnc_ov_mdig", "1" },
-	{ "vpnc_ov_ciph", "3" },
-	{ "vpnc_ov_clzo", "2" },
+	{ "vpnc_ov_ciph", "15" },
+	{ "vpnc_ov_ncp_clist", DEF_OVPNC_CIPH_LIST },
+	{ "vpnc_ov_compress", "2" },
 	{ "vpnc_ov_atls", "0" },
 
 #if defined(APP_XTU)

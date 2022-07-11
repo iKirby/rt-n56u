@@ -5,6 +5,11 @@ on:
   push:
   pull_request:
   workflow_dispatch:
+    inputs:
+      debug_enabled:
+        description: 'Run the build with tmate debugging enabled (https://github.com/marketplace/actions/debugging-with-tmate)'     
+        required: false
+        default: 'no'
   release:
     types: [published]
 
@@ -34,13 +39,18 @@ jobs:
       - name: Prepare environment
         run: |
           sudo apt update
-          sudo apt install libtool-bin gperf python-docutils autopoint gettext
+          sudo apt install libtool-bin gperf python3-docutils autopoint gettext
       - name: Run shellcheck
         run: sh ./trunk/tools/shellcheck.sh
       - name: Prepare toolchain
         run: |
           cd toolchain-mipsel
           sh dl_toolchain.sh
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled == 'yes' }}
+        with:
+          limit-access-to-actor: true
       - name: Start build
         run: |
           cd trunk

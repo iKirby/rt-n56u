@@ -63,6 +63,7 @@ Contributors of this project are not responsible for what happens next.
 >- [frps](https://github.com/fatedier/frp) ```CONFIG_FIRMWARE_INCLUDE_FRPS```
 >- [tunsafe](https://github.com/TunSafe/TunSafe) ```CONFIG_FIRMWARE_INCLUDE_TUNSAFE```
 >- [wireguard-go](https://git.zx2c4.com/wireguard-go/) ```CONFIG_FIRMWARE_INCLUDE_WIREGUARD```
+>- [smartdns](https://github.com/pymumu/smartdns) ```CONFIG_FIRMWARE_INCLUDE_SMARTDNS```
 
 - 已适配除官方适配外的以下机型
 >- PSG1208
@@ -73,6 +74,7 @@ Contributors of this project are not responsible for what happens next.
 >- MI-MINI (USB)
 >- MI-3 (USB)
 >- MI-3C
+>- MI-4
 >- MI-R3G (USB)
 >- MI-R4A
 >- MI-R3P (USB)
