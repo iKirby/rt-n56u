@@ -1,4 +1,4 @@
-name: build K2P-custom
+name: build K2P-custom-v4
 
 on: 
   workflow_dispatch:
